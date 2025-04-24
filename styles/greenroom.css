@@ -1,0 +1,327 @@
+/* styles/greenroom.css */
+
+:root {
+    --primary-color: #1db954; /* vert vibrant style Spotify */
+    --secondary-color: #1ed760; /* vert plus clair */
+    --background-color: #0d1117; /* fond sombre */
+    --card-bg: #161b22;
+    --text-color: #e6f1e8;
+    --accent-color: #26ff96;
+    --hover-color: #23c76d;
+    --border-color: #1f2933;
+    --shadow-color: rgba(38, 255, 150, 0.1);
+    --font-main: 'Segoe UI', sans-serif;
+}
+
+/* Reset de base */
+body {
+    margin: 0;
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--hover-color);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    
+    margin: auto;
+}
+
+/* Header */
+#header {
+    background-color: var(--card-bg);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 0;
+    z-index: 1000;
+}
+
+.header{
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+}
+
+#logo h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+#job-title {
+    margin-top: 0.2rem;
+    font-size: 0.95rem;
+    color: var(--accent-color);
+}
+
+#main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.2rem;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: var(--hover-color);
+}
+
+/* Hero */
+#hero {
+    background: linear-gradient(120deg, #0d1117, #0f1f16);
+    padding: 4rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+#hero-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+#hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+#view-work-btn {
+    background-color: var(--primary-color);
+    color: black;
+    padding: 0.8rem 1.6rem;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 1rem;
+    display: inline-block;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+#view-work-btn:hover {
+    background-color: var(--hover-color);
+}
+
+#hero-image img {
+    width: 180px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    float: right;
+}
+
+.welcome{
+
+    display: flex;
+    justify-content: center;
+
+    gap: 50px;
+}
+
+/* Sections */
+section {
+    padding: 4rem 0;
+}
+
+/* About */
+#about-text p {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.info-label {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+#social-links a {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: var(--primary-color);
+    transition: color 0.3s;
+}
+
+#social-links a:hover {
+    color: var(--hover-color);
+}
+
+/* Compétences */
+.skill-category-title {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.skill-item {
+    margin-bottom: 1rem;
+}
+
+.skill-level {
+    background-color: var(--border-color);
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 0.2rem;
+}
+
+.skill-level::before {
+    content: "";
+    display: block;
+    height: 100%;
+    background-color: #e20909;
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+.skill-fill{
+
+    background-color: #1db954;
+}
+
+
+/* Portfolio */
+#portfolio-filters {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+    color: var(--primary-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--primary-color);
+    color: #000;
+}
+
+.portfolio-item {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    margin-bottom: 2rem;
+    transition: transform 0.3s;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+}
+
+.project-title {
+    color: var(--accent-color);
+}
+
+/* Expérience */
+.timeline-item {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.timeline-date {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Contact */
+#contact-info h3 {
+    color: var(--primary-color);
+}
+
+#contact-form input,
+#contact-form textarea {
+    width: 100%;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    
+    margin-bottom: 1rem;
+    background-color: #1c1f26;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+}
+
+#submit-btn {
+    background-color: var(--primary-color);
+    color: #000;
+    font-weight: bold;
+    padding: 0.8rem 1.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#submit-btn:hover {
+    background-color: var(--hover-color);
+}
+
+/* Footer */
+#footer {
+    background-color: var(--card-bg);
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+#footer-social a {
+    margin: 0 0.5rem;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    transition: color 0.3s;
+}
+
+#footer-social a:hover {
+    color: var(--hover-color);
+}
+@media screen and (max-width: 767px) {
+    .welcome{
+
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    
+        gap: 50px;
+    }
+
+    #main-nav{
+
+        display: none;
+
+    
+    }
+    
+  }
+  

@@ -1,0 +1,300 @@
+/* RESET ET DEBASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+#header {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+}
+
+#logo h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+#job-title {
+    font-size: 14px;
+    color: #ccc;
+}
+
+#main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+#main-nav a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#main-nav a:hover {
+    color: #ffa500;
+}
+
+/* HERO SECTION */
+#hero {
+    background-color: #e5e5e5;
+    padding: 60px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hero .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+}
+
+#hero-title {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+#hero-subtitle {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#hero-image{
+
+    width: 300px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+/* ABOUT */
+#about {
+    background-color: white;
+    padding: 60px 0;
+}
+
+#about-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+#about-text {
+    flex: 1;
+}
+
+#social-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.social-link i {
+    font-size: 20px;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.social-link:hover i {
+    color: #0077b5;
+}
+
+.info-label {
+    font-weight: bold;
+}
+
+/* SKILLS */
+#skills {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.skill-category {
+    margin-bottom: 40px;
+}
+
+.skills-list {
+    list-style: none;
+}
+
+.skill-item {
+    margin-bottom: 10px;
+}
+
+.skill-level {
+    height: 10px;
+    background-color: #ddd;
+    margin-top: 5px;
+    position: relative;
+}
+
+.skill-level::before {
+    content: "";
+    display: block;
+    height: 100%;
+    background-color: #333;
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+.skill-fill{
+
+    background-color: #0077b5;
+    
+}
+
+
+
+/* PORTFOLIO */
+#portfolio {
+    padding: 60px 0;
+    background-color: white;
+}
+
+#portfolio-filters {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    margin: 5px;
+    padding: 8px 16px;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background-color: #333;
+    color: white;
+}
+
+#portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.portfolio-item {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* EXPERIENCE */
+#experience {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+}
+
+.timeline-item {
+    margin-bottom: 30px;
+}
+
+.timeline-date {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.timeline-title {
+    font-size: 18px;
+}
+
+/* CONTACT */
+#contact {
+    background-color: white;
+    padding: 60px 0;
+}
+
+#contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+#contact-info {
+    flex: 1;
+}
+
+#contact-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* FOOTER */
+#footer {
+    background-color: #333;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+}
+
+#footer-links,
+#footer-social {
+    margin-top: 10px;
+}
+
+.footer-link {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
