@@ -1,8 +1,9 @@
- /* Global Styles */
- body {
+/* Global Styles */
+body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: #ddd;
+    background-color: #121212;
     margin: 0;
     padding: 0;
 }
@@ -18,18 +19,17 @@
     font-size: 2rem;
     margin-bottom: 30px;
     text-align: center;
-    color: #2c3e50;
+    color: #fff;
 }
 
 /* Header Styles */
 #header {
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: #1c1c1c;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 100;
-    
 }
 
 .header {
@@ -42,6 +42,7 @@
 #logo h1 {
     margin: 0;
     font-size: 1.5rem;
+    color: #fff;
 }
 
 #job-title {
@@ -63,7 +64,7 @@
 
 .nav-link {
     text-decoration: none;
-    color: #34495e;
+    color: #ddd;
     font-weight: 500;
     transition: color 0.3s;
 }
@@ -75,7 +76,7 @@
 /* Hero Section */
 #hero {
     padding: 150px 0 100px;
-    background-color: #f8f9fa;
+    background-color: #1e1e1e;
 }
 
 .welcome {
@@ -92,7 +93,7 @@
 #hero-title {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    color: #2c3e50;
+    color: #fff;
 }
 
 #hero-subtitle {
@@ -126,14 +127,14 @@
     height: 300px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid #ecf0f1;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 5px solid #444;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 /* About Section */
 #about {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: #1c1c1c;
 }
 
 #about-content {
@@ -148,7 +149,7 @@
 
 #about-description {
     margin-bottom: 30px;
-    color: #34495e;
+    color: #ddd;
     line-height: 1.8;
 }
 
@@ -167,7 +168,7 @@
 
 .info-label {
     font-weight: 600;
-    color: #2c3e50;
+    color: #fff;
 }
 
 #social {
@@ -199,7 +200,7 @@
 /* Skills Section */
 #skills {
     padding: 100px 0;
-    background-color: #f8f9fa;
+    background-color: #1e1e1e;
 }
 
 .skill-category {
@@ -209,7 +210,7 @@
 .skill-category-title {
     font-size: 1.3rem;
     margin-bottom: 20px;
-    color: #2c3e50;
+    color: #fff;
 }
 
 .skills-list {
@@ -225,11 +226,12 @@
     display: block;
     margin-bottom: 5px;
     font-weight: 500;
+    color: #ddd;
 }
 
 .skill-level {
     height: 10px;
-    background-color: #ecf0f1;
+    background-color: #444;
     border-radius: 5px;
     overflow: hidden;
 }
@@ -243,7 +245,7 @@
 /* Portfolio Section */
 #portfolio {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: #1c1c1c;
 }
 
 #portfolio-grid {
@@ -255,13 +257,13 @@
 .portfolio-item {
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .portfolio-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
 }
 
 .portfolio-item img {
@@ -276,7 +278,7 @@
 
 .project-title {
     margin: 0 0 10px;
-    color: #2c3e50;
+    color: #fff;
 }
 
 .project-description {
@@ -297,7 +299,7 @@
 /* Experience Section */
 #experience {
     padding: 100px 0;
-    background-color: #f8f9fa;
+    background-color: #1e1e1e;
 }
 
 #timeline {
@@ -308,8 +310,6 @@
     display: flex;
     flex-direction: column;
 }
-
-
 
 .timeline-item {
     padding: 20px 0;
@@ -332,9 +332,9 @@
 .timeline-content {
     width: calc(50% - 40px);
     padding: 20px;
-    background-color: white;
+    background-color: #333;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     margin-left: 50px;
 }
 
@@ -348,7 +348,7 @@
 
 .timeline-title {
     margin: 0 0 10px;
-    color: #2c3e50;
+    color: #fff;
 }
 
 .timeline-lieu {
@@ -359,13 +359,13 @@
 
 .timeline-description {
     margin: 0;
-    color: #7f8c8d;
+    color: #ddd;
 }
 
 /* Contact Section */
 #contact {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: #1c1c1c;
 }
 
 #contact-container {
@@ -380,7 +380,7 @@
 
 #contact-subtitle {
     font-size: 1.3rem;
-    color: #2c3e50;
+    color: #fff;
     margin-bottom: 20px;
 }
 
@@ -418,10 +418,12 @@
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     border-radius: 5px;
     font-family: inherit;
     font-size: 1rem;
+    background-color: #333;
+    color: #ddd;
 }
 
 .form-group textarea {
@@ -482,9 +484,9 @@
     top: 100px;
     right: 100px;
     width: 300px;
-    background: white;
+    background: #222;
     border: 2px solid #333;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
     z-index: 1000;
     border-radius: 10px;
     overflow: hidden;
@@ -511,7 +513,7 @@
 
 .popup-body {
     padding: 15px;
-    color: #333;
+    color: #ddd;
 }
 
 #reopen-popup {
@@ -532,60 +534,52 @@
         flex-direction: column;
         text-align: center;
     }
-    
+
     #hero-content {
         margin-bottom: 50px;
     }
-    
+
     #about-content {
         flex-direction: column;
     }
-    
+
     #about-text {
         margin-bottom: 30px;
     }
-    
+
     #contact-container {
         flex-direction: column;
     }
-    
+
     #contact-info {
         padding-right: 0;
         margin-bottom: 50px;
     }
-    
+
     #footer-content {
         flex-direction: column;
         text-align: center;
     }
-    
+
     #footer-links, #footer-social {
         margin: 20px 0;
         justify-content: center;
     }
-    
 
-    
     .timeline-item {
-        
         margin-left: 10px;
         position: relative;
         width: calc(100% - 140px);
-        
-
     }
+
     .timeline-content {
         width: 100%;
         margin-left: 0;
     }
 
-    .timeline-date{
-
+    .timeline-date {
         position: absolute;
         right: -50px;
         left: auto;
     }
-   
-
-
 }

@@ -6,7 +6,7 @@ $user = null; // Par défaut aucun user
 
 // Si un ID est présent dans l'URL
 if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $id_user = intval($_GET['id']); // sécurisation
+    $id_user = $_GET['id']; // sécurisation
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id_user = ?");
     $stmt->execute([$id_user]);
@@ -26,6 +26,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $section_contact = $stmt->fetch(PDO::FETCH_ASSOC);
     
     
+    
     $stmt = $pdo->prepare("SELECT * FROM section_competences_categorie WHERE id_user = ?");
     $stmt->execute([$id_user]);
     $section_competences_categorie = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -43,6 +44,15 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $section_experiences = $stmt->fetch(PDO::FETCH_ASSOC);
     
 
+    if (!empty($info_principales['id_css'] )) {
+    $selected_css = $info_principales['id_css'];
+    $stmt = $pdo->prepare("SELECT * FROM styles_css WHERE id_css = ?");
+    $stmt->execute([$selected_css]);
+    $style = $stmt->fetch(PDO::FETCH_ASSOC);}
+    else {
+        $stmt = $pdo->query("SELECT * FROM styles_css WHERE id_css = 2");
+        $style = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 
 }
@@ -54,6 +64,7 @@ else{
 }
 
 // var_dump($user)
+
 ?>
 
 <!DOCTYPE html>
@@ -62,32 +73,101 @@ else{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Portfolio</title>
-    <!-- Lien vers le fichier CSS qui sera choisi par l'utilisateur -->
-    <link rel="stylesheet" href="/portfoliomaker/styles/default.css" id="portfolio-style">
-</head>
-<body>
-
-<?php 
-if (isset($_GET['id']) && $user) {
-    if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $_GET['id']) {
-        echo "C'est ton propre portfolio 👤";
-    } else {
-        echo "Tu consultes le portfolio de quelqu'un d'autre 👀";
-    }
-} else {
-    echo "Aucun utilisateur spécifié. Voici le modèle de base du portfolio ✨";
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="img/logo.svg" type="image/x-icon">
+    <style>/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 100px;
+    right: 100px;
+    width: 300px;
+    background: white;
+    border: 2px solid #333;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    border-radius: 10px;
+    overflow: hidden;
 }
-?>
 
+.popup-header {
+    cursor: move;
+    background: #222;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.popup-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.popup-body {
+    padding: 15px;
+    
+}
+
+#reopen-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #222;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1000;
+}</style>
+    <link rel="stylesheet" href="styles/<?php if (!empty($style['nom'])) {
+                        echo htmlspecialchars($style['nom']);
+                    } else {
+                        echo 'default';
+                    }?>.css" id="portfolio-style">
+                    
+</head>
+
+<body>
+    <?php if (isset($_GET['id']) && $user) { 
+        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $_GET['id']) { ?>
+            <div id="draggable-popup" class="popup">
+                <div class="popup-header">
+                    <h2>Vous êtes sur votre portfolio personnel</h2>
+                    <button id="minimize-btn">–</button>
+                </div>
+                <div class="popup-body">
+                    <p>Si vous souhaitez le modifier, rendez-vous sur le backoffice</p>
+                    <a href='backoffice.php' class='btn'>Accéder au backoffice</a>
+                </div>
+            </div>
+            <div id="reopen-popup" style="display: none;">📂 Réouvrir</div>
+        <?php } 
+    } else { 
+        echo "Aucun utilisateur spécifié. Voici le modèle de base du portfolio ✨"; 
+    } ?>
+    
     <header id="header">
         <div class="container header">
             <div id="logo">
-                <h1><span id="firstname">
-                <?php echo $user['prenom']; ?>
-
-                </span> <span id="lastname"><?php echo $user['nom'];  ?>
-                </span></h1>
-                <p id="job-title">Poste/Métier</p>
+                <h1><span id="firstname"><?php echo $user['prenom']; ?></span> <span id="lastname"> <?php 
+                        if (!empty($user['nom'])) {
+                            echo $user['nom'];
+                        } else {
+                            echo '';
+                        }
+                     ?></span></h1>
+                <p id="job-title"><?php 
+                    if (!empty($info_principales['metier'])) {
+                        echo htmlspecialchars($info_principales['metier']);
+                    } else {
+                        echo 'Poste/métier non renseigné';
+                    }
+                ?></p>
             </div>
             
             <nav id="main-nav">
@@ -101,274 +181,282 @@ if (isset($_GET['id']) && $user) {
             </nav>
         </div>
     </header>
-
+    
     <!-- Section Hero/Banniere -->
     <section id="hero">
         <div class="container welcome">
             <div id="hero-content">
-                <h2 id="hero-title">Bienvenue sur mon portfolio</h2>
-                <p id="hero-subtitle">Découvrez mon travail et mes compétences</p>
+                <h2 id="hero-title">
+                    <?php 
+                    if (!empty($section_about['titre_accueil'])) {
+                        echo htmlspecialchars($section_about['titre_accueil']);
+                    } else {
+                        echo 'Bienvenue sur mon portfolio !';
+                    }
+                ?></h2>
+                <p id="hero-subtitle"><?php 
+                    if (!empty($section_about['phrase_accroche'])) {
+                        echo htmlspecialchars($section_about['phrase_accroche']);
+                    } else {
+                        echo 'Découvrez mon travail et mes compétences';
+                    }
+                ?></p>
                 <a href="#portfolio" class="btn" id="view-work-btn">Voir mes projets</a>
             </div>
             <div id="hero-image">
-    <img 
-        src="<?php
-            if (!empty($info_principales['imagepp'])) {
-                echo $info_principales['imagepp'];
-            } else {
-                echo 'https://img.freepik.com/vecteurs-premium/illustration-vectorielle-plate-echelle-gris-avatar-profil-utilisateur-icone-personne-image-profil-silhouette-neutre-genre-convient-pour-profils-medias-sociaux-icones-economiseurs-ecran-comme-modelex9xa_719432-2210.jpg';
-            }
-        ?>" 
-        alt="Photo de profil" 
-        id="profile-pic"
-    >
-</div>
-
+                <img src="<?php 
+                    if (!empty($info_principales['imagepp'])) {
+                        echo $info_principales['imagepp'];
+                    } else {
+                        echo 'https://img.freepik.com/vecteurs-premium/illustration-vectorielle-plate-echelle-gris-avatar-profil-utilisateur-icone-personne-image-profil-silhouette-neutre-genre-convient-pour-profils-medias-sociaux-icones-economiseurs-ecran-comme-modelex9xa_719432-2210.jpg';
+                    }
+                ?>" alt="Photo de profil" id="profile-pic">
+            </div>
         </div>
     </section>
-
+    
     <!-- Section A propos -->
     <section id="about">
         <div class="container">
-            <h2 class="section-title"><?php
-                                if (!empty($section_about['titre_accueil'])) {
-                                    // Affiche la localisation (sécurisée)
-                                    echo htmlspecialchars($section_about['titre_accueil']);
-                                } else {
-                                    // Valeur par défaut si rien n'est renseigné
-                                    echo 'Non renseigné';
-                                }
-                              ?></h2>
             <div id="about-content">
                 <div id="about-text">
-                    <p id="about-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
+                    <h2 class="section-title">À propos de moi</h2>
+                    <p id="about-description"><?php 
+                        if (!empty($section_about['apropos'])) {
+                            echo htmlspecialchars($section_about['apropos']);
+                        } else {
+                            echo 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.';
+                        }
+                    ?></p>
                     
                     <div id="personal-info">
                         <ul>
-                            <li><span class="info-label">Âge : </span> <span id="age">30</span></li>
-                            <li><span class="info-label">Localisation :</span> <span id="location">
-                                <?php
+                            <li><span class="info-label">Âge : </span> <span id="age"><?php 
+                                if (!empty($user['age'])) {
+                                    echo htmlspecialchars($user['age']);
+                                } else {
+                                    echo 'Non renseigné';
+                                }
+                            ?></span></li>
+                            <li><span class="info-label">Localisation :</span> <span id="location"><?php 
                                 if (!empty($info_principales['localisation'])) {
-                                    // Affiche la localisation (sécurisée)
                                     echo htmlspecialchars($info_principales['localisation']);
                                 } else {
-                                    // Valeur par défaut si rien n'est renseigné
                                     echo 'Non renseigné';
                                 }
-                              ?></span></li>
-                            <li><span class="info-label">Email :</span> <a id="email" href="mailto:<?php
+                            ?></span></li>
+                            <li><span class="info-label">Email :</span> <a id="email" href="mailto:<?php 
                                 if (!empty($section_contact['mail_contact'])) {
-                                    // Affiche la localisation (sécurisée)
                                     echo htmlspecialchars($section_contact['mail_contact']);
                                 } else {
-                                    // Valeur par défaut si rien n'est renseigné
-                                    echo 'Non renseigné';
+                                    echo $user['email'];
                                 }
-                              ?>">
-                              <?php
+                            ?>"><?php 
                                 if (!empty($section_contact['mail_contact'])) {
-                                    // Affiche la localisation (sécurisée)
                                     echo htmlspecialchars($section_contact['mail_contact']);
                                 } else {
-                                    // Valeur par défaut si rien n'est renseigné
-                                    echo 'Non renseigné';
+                                    echo $user['email'];
+                                
                                 }
-                              ?></a></li>
-                            <li><span class="info-label">Téléphone :</span> <a id="email" href="tel:<?php
+                            ?></a></li>
+                            <li><span class="info-label">Téléphone :</span> <a id="tel" href="tel:<?php 
                                 if (!empty($info_principales['telephone'])) {
-                                    // Affiche la localisation (sécurisée)
                                     echo htmlspecialchars($info_principales['telephone']);
                                 } else {
-                                    // Valeur par défaut si rien n'est renseigné
                                     echo 'Non renseigné';
                                 }
-                              ?>"><?php
+                            ?>"><?php 
                                 if (!empty($info_principales['telephone'])) {
-                                    // Affiche la localisation (sécurisée)
                                     echo htmlspecialchars($info_principales['telephone']);
                                 } else {
-                                    // Valeur par défaut si rien n'est renseigné
                                     echo 'Non renseigné';
                                 }
-                              ?></a></li>
+                            ?></a></li>
                         </ul>
                     </div>
                 </div>
                 
-                <div id="social-links">
-                    <a href="#" class="social-link" id="linkedin-link"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-link" id="github-link"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-link" id="twitter-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link" id="dribbble-link"><i class="fab fa-dribbble"></i></a>
+                <div id="social">
+                    <ul>
+                        <li><a href="https://www.linkedin.com/in/lohan-vapaille-1b3968318/" class="social-link" target='_blank'><i class='bx bxl-linkedin'></i></a></li>
+                        <li><a href="https://github.com/LohanVapaille" class="social-link" target='_blank'><i class='bx bxl-github'></i></a></li>
+                        <li><a href="https://lohanvapaille.fr" class="social-link" target='_blank'><i class='bx bx-globe'></i></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- Section Compétences -->
     <section id="skills">
         <div class="container">
             <h2 class="section-title">Mes compétences</h2>
+            <?php
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $id_user = $_GET['id'];
+    
+    $stmt = $pdo->prepare("SELECT * FROM section_competences_categorie WHERE id_user = ?");
+    $stmt->execute([$id_user]);
+    $section_competences_categorie = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!empty($section_competences_categorie)) {
+        foreach ($section_competences_categorie as $categorie) {
+            echo '<div class="skill-category">';
+            echo '<h3 class="skill-category-title">' . htmlspecialchars($categorie['nom']) . '</h3>';
+            echo '<ul class="skills-list">';
+
+            $stmt = $pdo->prepare("SELECT * FROM section_competences WHERE id_categorie = ? AND id_user = ?");
+            $stmt->execute([$categorie['id_categorie'], $id_user]);
+            $competences = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            <div id="skills-container">
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Développement</h3>
-                    <ul class="skills-list">
-                        <li class="skill-item">
-                            <span class="skill-name">HTML/CSS</span>
-                            <div class="skill-level" data-level="90"></div>
-                        </li>
-                        <li class="skill-item">
-                            <span class="skill-name">JavaScript</span>
-                            <div class="skill-level" data-level="80"></div>
-                        </li>
-                        <li class="skill-item">
-                            <span class="skill-name">PHP</span>
-                            <div class="skill-level" data-level="70"></div>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Design</h3>
-                    <ul class="skills-list">
-                        <li class="skill-item">
-                            <span class="skill-name">UI/UX</span>
-                            <div class="skill-level" data-level="85"></div>
-                        </li>
-                        <li class="skill-item">
-                            <span class="skill-name">Photoshop</span>
-                            <div class="skill-level" data-level="75"></div>
-                        </li>
-                        <li class="skill-item">
-                            <span class="skill-name">Illustrator</span>
-                            <div class="skill-level" data-level="65"></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
+            foreach ($competences as $competence) {
+                echo '<li class="skill-item">';
+                echo '<span class="skill-name">' . htmlspecialchars($competence['nom_competence']) . '</span>';
+                echo '<div class="skill-level" data-level="' . htmlspecialchars($competence['pourcent_competence']) . '"></div>';
+                echo '</li>';
+            }
+
+            echo '</ul>';
+            echo '</div>';
+        }
+    } else {
+        echo '<p>Aucune compétence renseignée.</p>';
+    }
+} else {
+    echo '<p>Utilisateur non spécifié.</p>';
+}
+?>
+
+            
         </div>
     </section>
-
+    
     <!-- Section Portfolio/Projets -->
     <section id="portfolio">
         <div class="container">
             <h2 class="section-title">Mes projets</h2>
-            
-            <div id="portfolio-filters">
-                <button class="filter-btn active" data-filter="all">Tous</button>
-                <button class="filter-btn" data-filter="web">Web</button>
-                <button class="filter-btn" data-filter="design">Design</button>
-                <button class="filter-btn" data-filter="mobile">Mobile</button>
-            </div>
-            
             <div id="portfolio-grid">
-                <div class="portfolio-item" data-category="web">
-                    <img src="images/project1.jpg" alt="Projet 1" class="project-image">
-                    <div class="project-info">
-                        <h3 class="project-title">Site Web E-commerce</h3>
-                        <p class="project-description">Développement d'une boutique en ligne avec système de paiement</p>
-                        <a href="#" class="project-link">Voir le projet</a>
+                <?php 
+                $stmt = $pdo->prepare("SELECT * FROM section_projets WHERE id_user = ?");
+                $stmt->execute([$id_user]);
+                $section_projets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($section_projets )) {
+                foreach ($section_projets as $projet) { ?>
+                    <div class="portfolio-item">
+                        <?php if (!empty($projet['image'])) {
+                            echo '<img src="' . htmlspecialchars($projet['image']) . '" alt="Projet" class="project-image">';
+                        } else {
+                            echo '';
+                        } ?>
+                        
+                        <div class="project-info">
+                            <h3 class="project-title"><?php echo htmlspecialchars($projet['titre_projet']); ?></h3>
+                            <p class="project-description"><?php echo htmlspecialchars($projet['description']); ?></p>
+                            <a href="<?php echo htmlspecialchars($projet['lien']); ?>" class="project-link" target="_blank">Voir le projet</a>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="design">
-                    <img src="images/project2.jpg" alt="Projet 2" class="project-image">
-                    <div class="project-info">
-                        <h3 class="project-title">Identité visuelle</h3>
-                        <p class="project-description">Création d'une identité visuelle pour une startup</p>
-                        <a href="#" class="project-link">Voir le projet</a>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item" data-category="mobile">
-                    <img src="images/project3.jpg" alt="Projet 3" class="project-image">
-                    <div class="project-info">
-                        <h3 class="project-title">Application Mobile</h3>
-                        <p class="project-description">Développement d'une application de fitness</p>
-                        <a href="#" class="project-link">Voir le projet</a>
-                    </div>
-                </div>
+                <?php } 
+                } else {
+                    echo '<p>Aucun projet renseigné.</p>';}
+                 ?>
             </div>
         </div>
     </section>
-
+    
     <!-- Section Expérience/Formation -->
     <section id="experience">
         <div class="container">
             <h2 class="section-title">Mon parcours</h2>
-            
             <div id="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">2020 - Présent</div>
-                    <div class="timeline-content">
-                        <h3 class="timeline-title">Développeur Front-end</h3>
-                        <p class="timeline-company">Entreprise ABC</p>
-                        <p class="timeline-description">Développement d'interfaces utilisateur pour des applications web.</p>
+                <?php 
+                $stmt = $pdo->prepare("SELECT * FROM section_experiences WHERE id_user = ? ORDER BY annee_debut DESC");
+                $stmt->execute([$id_user]);
+                $section_experiences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($section_experiences )) {
+                foreach ($section_experiences as $experience) { ?>
+                    <div class="timeline-item">
+                        <div class="timeline-date"><?php echo $experience['annee_debut'];?> - <?php echo $experience['annee_fin'];?></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title"><?php echo $experience['titre_experience'];?></h3>
+                            <p class="timeline-lieu"><?php echo $experience['lieu'];?></p>
+                            <p class="timeline-description"><?php echo $experience['description_exp'];?></p>
+                        </div>
                     </div>
-                </div>
+                <?php } 
+                } else {
+                    echo '<p>Aucune expérience renseignée</p>';
+                } ?>
                 
-                <div class="timeline-item">
-                    <div class="timeline-date">2018 - 2020</div>
-                    <div class="timeline-content">
-                        <h3 class="timeline-title">Designer UI/UX</h3>
-                        <p class="timeline-company">Agence XYZ</p>
-                        <p class="timeline-description">Conception d'interfaces et expériences utilisateur.</p>
-                    </div>
-                </div>
                 
-                <div class="timeline-item">
-                    <div class="timeline-date">2016 - 2018</div>
-                    <div class="timeline-content">
-                        <h3 class="timeline-title">Formation Développement Web</h3>
-                        <p class="timeline-company">École 123</p>
-                        <p class="timeline-description">Diplôme en développement web et mobile.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
-
+    
     <!-- Section Contact -->
     <section id="contact">
         <div class="container">
             <h2 class="section-title">Contactez-moi</h2>
-            
             <div id="contact-container">
                 <div id="contact-info">
-                    <h3 id="contact-subtitle"><?php
-                                if (!empty($section_contact['titre_contact'])) {
-                                    // Affiche la localisation (sécurisée)
-                                    echo htmlspecialchars($section_contact['titre_contact']);
-                                } else {
-                                    // Valeur par défaut si rien n'est renseigné
-                                    echo 'Non renseigné';
-                                }
-                              ?></h3>
-                    <p id="contact-description"><?php
-                                if (!empty($section_contact['description_contact'])) {
-                                    // Affiche la localisation (sécurisée)
-                                    echo htmlspecialchars($section_contact['description_contact']);
-                                } else {
-                                    // Valeur par défaut si rien n'est renseigné
-                                    echo 'Une phrase qui donne explique pourquoi vous contacter. ';
-                                }
-                              ?></p>
+                    <h3 id="contact-subtitle"><?php 
+                        if (!empty($section_contact['titre_contact'])) {
+                            echo htmlspecialchars($section_contact['titre_contact']);
+                        } else {
+                            echo 'Contactez moi !';
+                        }
+                    ?></h3>
+                    <p id="contact-description"><?php 
+                        if (!empty($section_contact['description_contact'])) {
+                            echo htmlspecialchars($section_contact['description_contact']);
+                        } else {
+                            echo 'Contactez-moi en remplissant le formulaire ci-dessous!';
+                        }
+                    ?></p>
                     
                     <ul id="contact-details">
-                        <li><i class="fas fa-envelope"></i> <span id="contact-email">contact@example.com</span></li>
-                        <li><i class="fas fa-phone"></i> <span id="contact-phone">+33 6 12 34 56 78</span></li>
-                        <li><i class="fas fa-map-marker-alt"></i> <span id="contact-address">Paris, France</span></li>
+                        <li><i class='bx bxs-envelope'></i> <span id="contact-email"><?php 
+                        if (!empty($section_contact['mail_contact'])) {
+                            echo htmlspecialchars($section_contact['mail_contact']);
+                        } else {
+                            echo $user['email'];
+                            
+                        }
+                    ?>
+                    </span></li>
+                        <li><i class='bx bxs-phone'></i> <span id="contact-phone"><?php 
+                        if (!empty($info_principales['telephone'])) {
+                            echo htmlspecialchars($info_principales['telephone']);
+                        } else {
+                            echo '+33 07 07 07 07 07. ';
+                        }
+                    ?></span></li>
+                        <li><i class='bx bxs-map-pin'></i> <span id="contact-address"><?php 
+                        if (!empty($info_principales['localisation'])) {
+                            echo htmlspecialchars($info_principales['localisation']);
+                        } else {
+                            echo 'Où habitez vous ? ';
+                        }
+                    ?></span></li>
                     </ul>
                 </div>
                 
-                <form id="contact-form">
+                <form id="contact-form" action="mailto:<?php 
+                        if (!empty($section_contact['mail_contact'])) {
+                            echo htmlspecialchars($section_contact['mail_contact']);
+                        } else {
+                            echo $user['email'];
+                            
+                        }
+                    ?>" method="POST">
+            
                     <div class="form-group">
                         <input type="text" id="name" name="name" placeholder="Votre nom" required>
                     </div>
                     <div class="form-group">
                         <input type="email" id="email" name="email" placeholder="Votre email" required>
                     </div>
+
                     <div class="form-group">
                         <input type="text" id="subject" name="subject" placeholder="Sujet">
                     </div>
@@ -380,13 +468,13 @@ if (isset($_GET['id']) && $user) {
             </div>
         </div>
     </section>
-
+    
     <!-- Footer -->
     <footer id="footer">
         <div class="container">
             <div id="footer-content">
                 <div id="copyright">
-                    &copy; <span id="current-year">2023</span> <span id="footer-name">Prénom NOM</span>. Tous droits réservés.
+                    &copy; <span id="current-year">2025</span> <span id="footer-name">Powered by Lohan Vapaille</span>. Tous droits réservés.
                 </div>
                 
                 <div id="footer-links">
@@ -395,68 +483,80 @@ if (isset($_GET['id']) && $user) {
                 </div>
                 
                 <div id="footer-social">
-                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/lohan-vapaille-1b3968318/" class="social-link" target='_blank'><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/LohanVapaille" class="social-link" target='_blank'><i class='bx bxl-github'></i></a>
+                    <a href="https://lohanvapaille.fr" class="social-link" target='_blank'><i class='bx bx-globe'></i></a>
                 </div>
             </div>
         </div>
     </footer>
-
-    <!-- Scripts -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
     <script>
 
-        // scripts/main.js
+document.addEventListener('DOMContentLoaded', () => {
+    const skillBars = document.querySelectorAll('.skill-level');
+    console.log('Skill bars found:', skillBars);  // Vérifie combien de skill-level il y a
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const skillBars = document.querySelectorAll('.skill-level');
+    if (skillBars.length === 0) {
+        console.log('Aucun élément .skill-level trouvé sur cette page.');
+    }
 
-        skillBars.forEach(bar => {
-            const level = bar.getAttribute('data-level');
-            if (level) {
-                const fill = document.createElement('div');
-                fill.classList.add('skill-fill'); // Ajoute une classe CSS
-                fill.style.width = `${level}%`;
-                fill.style.height = '100%';
-                
-                fill.style.transition = 'width 1s ease';
-                fill.style.borderRadius = '5px';
-                fill.style.marginTop = '-10px'
-                bar.appendChild(fill);
-            }
-        });
-    });
+    skillBars.forEach(bar => {
+        const level = bar.getAttribute('data-level');
+        console.log('Level:', level);  // Vérifie la valeur de level
 
-        // Fonction pour changer le style CSS
-        function changeStyle(styleFile) {
-            document.getElementById('portfolio-style').href = 'styles/' + styleFile + '.css';
+        if (level) {
+            const fill = document.createElement('div');
+            fill.classList.add('skill-fill');
+            fill.style.width = `${level}%`;
+            fill.style.height = '100%';
+            fill.style.transition = 'width 1s ease';
+            fill.style.borderRadius = '5px';
+            bar.appendChild(fill);
         }
-        
-        // Exemple d'utilisation:
-        // changeStyle('modern'); chargerait le fichier styles/modern.css
-        // changeStyle('minimal'); chargerait le fichier styles/minimal.css
-        // etc.
-        
-        // Filtrage des projets
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const filter = this.getAttribute('data-filter');
-                
-                // Mettre à jour le bouton actif
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Filtrer les projets
-                document.querySelectorAll('.portfolio-item').forEach(item => {
-                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
+    });
+});
+    // Draggable popup functionality
+    const popup = document.getElementById('draggable-popup');
+    const header = popup.querySelector('.popup-header');
+    const minimizeBtn = document.getElementById('minimize-btn');
+    const reopenPopup = document.getElementById('reopen-popup');
+    
+    let offsetX, offsetY, isDragging = false;
+    
+    header.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - popup.offsetLeft;
+        offsetY = e.clientY - popup.offsetTop;
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+    
+    document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            popup.style.left = (e.clientX - offsetX) + 'px';
+            popup.style.top = (e.clientY - offsetY) + 'px';
+        }
+    });
+    
+    minimizeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+        reopenPopup.style.display = 'block';
+    });
+    
+    reopenPopup.addEventListener('click', () => {
+        popup.style.display = 'block';
+        reopenPopup.style.display = 'none';
+    });
+    
+
+
+
+    
+    // Current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

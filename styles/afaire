@@ -7,3 +7,12 @@ modif et supprimer les projet et les exp
 faire en srte que tout aille bien.
 
 les liens sont déja pas mal bien fait, mais 
+
+:15:
+array (size=6)
+  'id_user' => int 1
+  'nom' => string 'Vapaille' (length=8)
+  'prenom' => string 'Lohan' (length=5)
+  'age' => int 18
+  'email' => string 'lohan.vapaille@gmail.com' (length=24)
+  'mdp' => string '$2y$10$nx0Cjtq0BMnhk9nSiGfxWOVIj7MWYknU.TqOgqPZ9pMz2IppNwVfi' (length=60)

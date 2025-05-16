@@ -1,8 +1,9 @@
- /* Global Styles */
- body {
+/* Global Styles */
+body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: #2c3e50;
+    background-color: #ecf8ec;
     margin: 0;
     padding: 0;
 }
@@ -18,18 +19,17 @@
     font-size: 2rem;
     margin-bottom: 30px;
     text-align: center;
-    color: #2c3e50;
+    color: #1e3d28;
 }
 
 /* Header Styles */
 #header {
-    background-color: #fff;
+    background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 100;
-    
 }
 
 .header {
@@ -42,6 +42,7 @@
 #logo h1 {
     margin: 0;
     font-size: 1.5rem;
+    color: #1e3d28;
 }
 
 #job-title {
@@ -63,19 +64,19 @@
 
 .nav-link {
     text-decoration: none;
-    color: #34495e;
+    color: #2c6f3b;
     font-weight: 500;
     transition: color 0.3s;
 }
 
 .nav-link:hover {
-    color: #3498db;
+    color: #27ae60;
 }
 
 /* Hero Section */
 #hero {
     padding: 150px 0 100px;
-    background-color: #f8f9fa;
+    background-color: #d9f7e1;
 }
 
 .welcome {
@@ -92,7 +93,7 @@
 #hero-title {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    color: #2c3e50;
+    color: #1e3d28;
 }
 
 #hero-subtitle {
@@ -103,7 +104,7 @@
 
 .btn {
     display: inline-block;
-    background-color: #3498db;
+    background-color: #27ae60;
     color: white;
     padding: 12px 25px;
     border-radius: 5px;
@@ -113,7 +114,7 @@
 }
 
 .btn:hover {
-    background-color: #2980b9;
+    background-color: #2ecc71;
 }
 
 #hero-image {
@@ -133,7 +134,7 @@
 /* About Section */
 #about {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 #about-content {
@@ -148,7 +149,7 @@
 
 #about-description {
     margin-bottom: 30px;
-    color: #34495e;
+    color: #2c6f3b;
     line-height: 1.8;
 }
 
@@ -167,7 +168,7 @@
 
 .info-label {
     font-weight: 600;
-    color: #2c3e50;
+    color: #1e3d28;
 }
 
 #social {
@@ -187,19 +188,19 @@
 }
 
 .social-link {
-    color: #3498db;
+    color: #27ae60;
     font-size: 1.5rem;
     transition: color 0.3s;
 }
 
 .social-link:hover {
-    color: #2980b9;
+    color: #2ecc71;
 }
 
 /* Skills Section */
 #skills {
     padding: 100px 0;
-    background-color: #f8f9fa;
+    background-color: #d9f7e1;
 }
 
 .skill-category {
@@ -209,7 +210,7 @@
 .skill-category-title {
     font-size: 1.3rem;
     margin-bottom: 20px;
-    color: #2c3e50;
+    color: #1e3d28;
 }
 
 .skills-list {
@@ -236,14 +237,14 @@
 
 .skill-fill {
     height: 100%;
-    background-color: #3498db;
+    background-color: #27ae60;
     border-radius: 5px;
 }
 
 /* Portfolio Section */
 #portfolio {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 #portfolio-grid {
@@ -276,7 +277,7 @@
 
 .project-title {
     margin: 0 0 10px;
-    color: #2c3e50;
+    color: #1e3d28;
 }
 
 .project-description {
@@ -285,7 +286,7 @@
 }
 
 .project-link {
-    color: #3498db;
+    color: #27ae60;
     text-decoration: none;
     font-weight: 500;
 }
@@ -297,19 +298,17 @@
 /* Experience Section */
 #experience {
     padding: 100px 0;
-    background-color: #f8f9fa;
+    background-color: #d9f7e1;
 }
 
 #timeline {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-    border-left: #2980b9 2px solid;
+    border-left: #2ecc71 2px solid;
     display: flex;
     flex-direction: column;
 }
-
-
 
 .timeline-item {
     padding: 20px 0;
@@ -318,7 +317,7 @@
 
 .timeline-date {
     width: 120px;
-    background-color: #3498db;
+    background-color: #27ae60;
     color: white;
     padding: 8px 15px;
     border-radius: 20px;
@@ -348,12 +347,12 @@
 
 .timeline-title {
     margin: 0 0 10px;
-    color: #2c3e50;
+    color: #1e3d28;
 }
 
 .timeline-lieu {
     margin: 0 0 10px;
-    color: #3498db;
+    color: #27ae60;
     font-weight: 500;
 }
 
@@ -365,7 +364,7 @@
 /* Contact Section */
 #contact {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 #contact-container {
@@ -380,7 +379,7 @@
 
 #contact-subtitle {
     font-size: 1.3rem;
-    color: #2c3e50;
+    color: #1e3d28;
     margin-bottom: 20px;
 }
 
@@ -402,7 +401,7 @@
 
 #contact-details i {
     margin-right: 10px;
-    color: #3498db;
+    color: #27ae60;
     font-size: 1.2rem;
 }
 
@@ -431,7 +430,7 @@
 
 /* Footer */
 #footer {
-    background-color: #2c3e50;
+    background-color: #1e3d28;
     color: white;
     padding: 50px 0 20px;
 }
@@ -459,7 +458,7 @@
 }
 
 .footer-link:hover {
-    color: #3498db;
+    color: #27ae60;
 }
 
 #footer-social {
@@ -473,7 +472,7 @@
 }
 
 #footer-social a:hover {
-    color: #3498db;
+    color: #2ecc71;
 }
 
 /* Popup Styles */
@@ -492,7 +491,7 @@
 
 .popup-header {
     cursor: move;
-    background: #222;
+    background: #27ae60;
     color: white;
     padding: 10px;
     display: flex;
@@ -511,19 +510,23 @@
 
 .popup-body {
     padding: 15px;
-    color: #333;
+    color: #2c3e50;
 }
 
 #reopen-popup {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    background: #222;
+    background: #27ae60;
     color: white;
     padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
     z-index: 1000;
+}
+ li #email, li #tel{
+    color: #27ae60;
+    
 }
 
 /* Responsive Styles */
@@ -564,28 +567,20 @@
         justify-content: center;
     }
     
-
-    
     .timeline-item {
-        
         margin-left: 10px;
         position: relative;
         width: calc(100% - 140px);
-        
-
     }
+    
     .timeline-content {
         width: 100%;
         margin-left: 0;
     }
 
-    .timeline-date{
-
+    .timeline-date {
         position: absolute;
         right: -50px;
         left: auto;
     }
-   
-
-
 }
