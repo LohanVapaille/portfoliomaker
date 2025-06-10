@@ -67,7 +67,7 @@ $styles = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php } else { ?>
                     <a href="login.php" class="hero-btn hero-btn-primary">Se connecter</a>
                 <?php } ?>
-                <a href="backoffice" class="hero-btn hero-btn-secondary">Accéder au backoffice</a>
+                <a href="backoffice.php" class="hero-btn hero-btn-secondary">Accéder au backoffice</a>
             </div>
         </div>
     </section>
@@ -119,7 +119,7 @@ $styles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Templates Section --> 
     <section id="templates" class="py-16 bg-gray">
-        <div class="container">
+        <div class="container flex flex-col items-center">
             <div class="text-center">
                 <p class="section-title">Nos modèles</p>
                 <h2 class="section-heading">Choisissez votre style</h2>
